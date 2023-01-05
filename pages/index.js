@@ -2,17 +2,11 @@ import Head from "next/head"
 import { ApolloClient, InMemoryCache, useQuery, gql } from "@apollo/client"
 
 export const getStaticProps = async () => {
-  // create a new instance of ApolloClient with the SpaceX API endpoint
   const client = new ApolloClient({
-    // endpoint of SpaceX GraphQL API
     uri: "https://api.spacex.land/graphql/",
-    // create an instance of InMemoryCache
-    // used to cache query results
     cache: new InMemoryCache()
   })
 
-  // make a query
-  // destructure data from the results
   const { data } = await client.query({
     query: gql`
       query GetLaunches {
@@ -86,6 +80,8 @@ const HomePage = ({ launches }) => {
       <div>A demo from cf</div>
       {launches.map((item) => (
         <a key={item.id} href={item.links.video_link}>
+          {JSON.stringify(item)}
+
           <h3>{item.mission_name}</h3>
           <p>
             <strong>Launch Date:</strong> {new Date(item.launch_date_local).toLocaleDateString("en-US")}
